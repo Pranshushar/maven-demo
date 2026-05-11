@@ -27,6 +27,8 @@
 		<url/>
 	</scm>
 	<properties>
+		<sonar.host.url>http://YOUR_SONAR_IP:9000</sonar.host.url>
+    	<sonar.projectKey>your-app-name</sonar.projectKey>
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
