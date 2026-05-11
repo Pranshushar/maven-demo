@@ -31,6 +31,16 @@
     	<sonar.projectKey>your-app-name</sonar.projectKey>
 		<java.version>17</java.version>
 	</properties>
+	<distributionManagement>
+    <repository>
+        <id>nexus-release</id>
+        <url>http://43.205.211.38:8081/repository/maven-release/</url>
+    </repository>
+    <snapshotRepository>
+        <id>nexus-snapshot</id>
+        <url>http://43.205.211.38:8081/repository/maven-snapshot/</url>
+    </snapshotRepository>
+</distributionManagement>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
