@@ -1,0 +1,62 @@
+pipeline {
+    agent any
+    tools { maven 'Maven3' }
+
+    environment {
+        SONAR_TOKEN = credentials('sonar-token')
+    }
+
+    stages {
+        stage('Git Checkout') {
+            steps {
+                git url: 'https://github.com/Pranshushar/maven-demo.git',
+                    branch: 'main'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean package -DskipTests'
+            }
+        }
+
+        stage('Unit Tests') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh 'mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN'
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                waitForQualityGate abortPipeline: true
+            }
+        }
+
+        stage('Upload to Nexus') {
+            steps {
+                nexusArtifactUploader(
+                    nexusVersion: 'nexus3',
+                    protocol: 'http',
+                    nexusUrl: '43.205.211.38:8081',
+                    groupId: 'com.cfs',
+                    version: '0.0.1-SNAPSHOT',
+                    repository: 'maven-release',
+                    credentialsId: 'nexus-credentials',
+                    artifacts: [[
+                        artifactId: 'maven-demo',
+                        file: 'target/maven-demo-1.0.jar',
+                        type: 'jar'
+                    ]]
+                )
+            }
+        }
+    }
+}
