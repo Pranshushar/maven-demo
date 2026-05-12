@@ -10,6 +10,6 @@ public class TestController {
     @GetMapping("/test")
     public String test()
     {
-        return "Hello ji kaise ho";
+        return "🚀 Deployment Successful! | Service: maven-demo | Deployed at: 2026-05-13T02:40:00 | Pipeline: Jenkins → SonarQube → Nexus → EC2";
     }
 }
