@@ -62,4 +62,26 @@ pipeline {
             }
         }
     }
+}stage('Deploy to EC2') {
+            steps {
+                sshagent(['ec2-app-ssh-key']) {
+                    sh """
+                        ssh -o StrictHostKeyChecking=no \
+                        ec2-user@<app-ec2-ip> \
+                        'bash /home/ec2-user/deploy.sh'
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo '✅ App deployed successfully!'
+        }
+        failure {
+            echo '❌ Pipeline failed — check logs'
+        }
+    }
 }
+
