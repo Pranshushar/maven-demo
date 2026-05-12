@@ -45,7 +45,7 @@ pipeline {
                 nexusArtifactUploader(
                     nexusVersion: 'nexus3',
                     protocol: 'http',
-                    nexusUrl: '3.108.196.77:8081',
+                    nexusUrl: '3.6.78.251:8081',
                     groupId: 'com.cfs',
                     version: '0.0.1-SNAPSHOT',
                     repository: 'maven-release',
